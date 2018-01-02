@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 控制台日志打印 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <!-- web日志打印 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>logs/app_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy/MM/dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+
+
+    <!-- 记录所有业务代码的 debug 级别的日志，生产环境时可以调整为 ERROR 级别 -->
+    <logger name="com.gz.fz" level="debug"/>
+
+    <!-- 全局配置[除非要查看系统中第三方框架的 Info 日志，否则无需修改此配置]，当出现 Level >= WARN 的消息时，会在控制台和日志文件中打印 -->
+    <root level="WARN">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="FILE"/>-->
+    </root>
+
+</configuration>
